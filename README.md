@@ -2,6 +2,8 @@
 
 M1-R4 可操作前端原型，2026-10-29 确认并上传。
 
+[打开在线试玩](https://guanzigong-agent.github.io/wukong-trader/) · [查看素材来源](CREDITS.md)
+
 ![六区总地图](docs/verification/world-desktop.png)
 
 ## 玩法
@@ -30,4 +32,4 @@ python -m http.server 8080 --bind 127.0.0.1
 
 上传包已通过 35 项检查，包含七种窗口尺寸、模拟触屏买卖、总图保持、钱货边界及素材哈希核对。未实测实体手机。检查记录和截图见 [docs/verification](docs/verification/)。
 
-素材来源见 [CREDITS.md](CREDITS.md)。本次交付为 GitHub 仓库上传，未配置在线试玩站点。
+素材来源见 [CREDITS.md](CREDITS.md)。已获准公开仓库与试玩网页，GitHub Pages 从 main 分支根目录发布静态前端。
