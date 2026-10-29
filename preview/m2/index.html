@@ -6,9 +6,11 @@
   <meta name="theme-color" content="#172a23">
   <title>山海商途 · 地图进阶预览 | 黑神话之小妖行商</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="progression.css?v=m2-r1-six-stops">
-  <script src="progression-data.js?v=m2-r1-six-stops" defer></script>
-  <script src="progression.js?v=m2-r1-six-stops" defer></script>
+  <link rel="stylesheet" href="progression.css?v=m2-r2-market">
+  <script src="progression-data.js?v=m2-r2-market" defer></script>
+  <script src="market-data.js?v=m2-r2-market" defer></script>
+  <script src="market-preview.js?v=m2-r2-market" defer></script>
+  <script src="progression.js?v=m2-r2-market" defer></script>
 </head>
 <body>
   <header class="topbar">
@@ -22,7 +24,7 @@
     </div>
     <div class="play-layout">
       <section class="map-panel" aria-label="当前整张地图">
-        <div class="map-topline"><span id="map-status">壹 · 黑风山行旅</span><span>点图上货摊 · 立即抵达</span></div>
+        <div class="map-topline"><span id="map-status">壹 · 黑风山行旅</span><span>点站点 · 到站看价</span></div>
         <div id="map-viewport" class="map-viewport">
           <div id="map-world" class="map-world">
             <img id="terrain" class="terrain" alt="黑风山行旅图" draggable="false">
@@ -45,6 +47,7 @@
         </section>
         <section class="story"><span class="eyebrow">行商篇章 · 改编提案</span><p id="story-text"></p></section>
         <section class="trade-preview">
+          <div class="station-market-summary"><span class="eyebrow">本站商品</span><h3 id="market-current-name">山脚货摊</h3><p id="market-summary">甘草、镔铁砂、蚕丝、松醪</p><button id="market-open">查看商品与价格 <span aria-hidden="true">↗</span></button></div>
           <div class="cargo"><img id="cargo-icon" alt=""><div><small id="trade-location">山脚货摊</small><strong id="cargo-name">山野药材</strong></div></div>
           <button id="trade-button" class="primary"></button><p id="trade-hint">模拟收益用于评审地图节奏。</p>
         </section>
@@ -57,10 +60,11 @@
     </section>
     <footer><span>M2 界面提案 · 中间门槛与终单待确认</span><a href="../../materials.html" target="_blank" rel="noopener">素材来源</a><a href="https://wiki.biligame.com/wukong/%E7%AB%A0%E5%9B%9E" target="_blank" rel="noopener">原作章回参考</a></footer>
   </main>
-  <div class="mobile-action"><div><small>演示成交 · <span id="mobile-location">山脚货摊</span></small><span id="mobile-cargo">山野药材</span></div><button id="mobile-trade" class="primary">模拟成交 +1,000 文</button></div>
+  <div class="mobile-action"><div><small>当前站点 · <span id="mobile-location">山脚货摊</span></small><span id="mobile-cargo">山野药材</span></div><button id="mobile-trade" class="primary">查看本站商品与价格</button></div>
   <div id="feedback" class="feedback" role="status" aria-live="polite"></div>
   <dialog id="route-dialog" class="route-dialog"><div class="dialog-heading"><div><span class="eyebrow">每一程，都有目的地</span><h2>六程目标</h2></div><button class="close" data-close aria-label="关闭六程目标">×</button></div><p class="dialog-note">收益累计、不清零。10万文进入花果山；其余门槛与收尾为提案。</p><ol id="route-list"></ol><p class="small-note">成长节奏提案：前期较快换图，后期由更高收益的订单推动。</p></dialog>
   <dialog id="character-dialog" class="character-dialog"><div class="dialog-heading"><div><span class="eyebrow">同行之人</span><h2>选择人物形象</h2></div><button class="close" data-close aria-label="关闭人物选择">×</button></div><div id="character-list" class="character-list"></div><p class="small-note">原作实机截图 · 当前为半身呈现 · 外观不改变收益</p></dialog>
   <dialog id="arrival-dialog" class="arrival-dialog"><div class="arrival-symbol" id="arrival-symbol">贰</div><span class="eyebrow" id="arrival-eyebrow">新地图已开启</span><h2 id="arrival-title"></h2><p id="arrival-description"></p><button id="arrival-continue" class="primary">踏上新程</button></dialog>
+  <dialog id="market-dialog" class="market-dialog" aria-labelledby="market-title"><div class="dialog-heading"><div><span class="eyebrow" id="market-chapter">黑风山 · 集市</span><h2 id="market-title">山脚货摊</h2></div><button class="close" data-close aria-label="关闭本站行情" autofocus>×</button></div><div class="quote-meta"><span id="market-count">4种在售商品</span><span class="quote-demo">演示报价</span></div><table class="quote-table"><caption>本站商品与价格</caption><thead><tr><th scope="col">商品</th><th scope="col">买入价</th><th scope="col">卖出价</th><th scope="col">余量</th></tr></thead><tbody id="market-rows"></tbody></table><p class="quote-note">买入价为你买货的价格，卖出价为你卖货的价格。</p><p class="quote-limit">固定演示报价与余量，仅供看价；本页尚未接入买卖与持仓。</p><button id="market-return" class="primary">返回地图 · 前往其他站点比价</button></dialog>
 </body>
 </html>

@@ -47,6 +47,7 @@
     $('location').textContent=stop.name;
     $('trade-location').textContent=stop.name+' · '+data.stopKinds[stop.kind].label;
     $('mobile-location').textContent=stop.name;
+    window.WUKONG_MARKET_UI.setStation(state.stage,state.stop);
     document.querySelectorAll('[data-stop]').forEach(button=>{
       const current=Number(button.dataset.stop)===state.stop;
       button.classList.toggle('current',current);
@@ -54,10 +55,8 @@
     });
     const ultimate=state.stage===5;
     $('trade-button').disabled=state.complete || (ultimate && !stop.final);
-    $('trade-button').textContent=state.complete ? '归乡终单已交付' : ultimate ? '交付归乡终单 · 演示' : `模拟成交 +${fmt(stage.gain)} 文`;
-    $('mobile-trade').disabled=$('trade-button').disabled;
-    $('mobile-trade').textContent=$('trade-button').textContent;
-    $('trade-hint').textContent=ultimate ? state.complete ? '本次演示已完成，可以重新启程。' : '点地图上的“水帘洞外”，试演归乡收尾。' : '收益为演示数值，未接入成本与库存结算。';
+    $('trade-button').textContent=state.complete ? '归乡终单已交付' : ultimate ? '交付归乡终单 · 演示' : `演示本程收益 +${fmt(stage.gain)} 文`;
+    $('trade-hint').textContent=ultimate ? state.complete ? '本次演示已完成，可以重新启程。' : '点地图上的“水帘洞外”，试演归乡收尾。' : '此按钮用于演示换图，不进行商品买卖。';
     renderActor();
   }
   function renderProgress() {
@@ -125,7 +124,7 @@
   $('map-stops').addEventListener('click',event=>{
     const button=event.target.closest('[data-stop]');if(!button)return;
     state.stop=Number(button.dataset.stop);renderStop();
-    notify('已抵达'+data.stages[state.stage].stops[state.stop].name);
+    window.WUKONG_MARKET_UI.open();
   });
   $('trade-button').addEventListener('click',()=>{
     if(state.stage!==5){addProfit(data.stages[state.stage].gain);return;}
@@ -139,7 +138,7 @@
     $('arrival-dialog').showModal();
   });
   $('demo-order').addEventListener('click',()=>addProfit(10000));
-  $('mobile-trade').addEventListener('click',()=>$('trade-button').click());
+  $('mobile-trade').addEventListener('click',()=>window.WUKONG_MARKET_UI.open());
   $('demo-ultimate').addEventListener('click',()=>addProfit(100000-state.profit));
   $('reset').addEventListener('click',()=>{
     state.profit=0;state.stage=0;state.stop=0;state.complete=false;state.zoom=1;
@@ -154,7 +153,7 @@
     notify('已换为'+data.characters[state.character].name+'，收益和所在地点保持不变。');
   });
   document.querySelectorAll('[data-close]').forEach(button=>button.addEventListener('click',()=>button.closest('dialog').close()));
-  $('arrival-continue').addEventListener('click',()=>$('arrival-dialog').close());
+  $('arrival-continue').addEventListener('click',()=>{$('arrival-dialog').close();if(!state.complete)window.WUKONG_MARKET_UI.open();});
   document.querySelectorAll('dialog').forEach(dialog=>dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}}));
   $('zoom-in').addEventListener('click',()=>{state.zoom=Math.min(1.6,state.zoom+.2);fitMap();});
   $('zoom-out').addEventListener('click',()=>{state.zoom=Math.max(1,state.zoom-.2);fitMap();});
@@ -162,4 +161,5 @@
   new ResizeObserver(fitMap).observe($('map-viewport'));
   if(new URLSearchParams(location.search).get('scene')==='ultimate'){state.profit=100000;state.stage=5;}
   renderStage();
+  window.WUKONG_MARKET_UI.open();
 })();
