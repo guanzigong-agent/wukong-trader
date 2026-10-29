@@ -16,12 +16,22 @@
   }
   function fitMap() {
     const stage=data.stages[state.stage], viewport=$('map-viewport');
+    const height=innerWidth<=760?`${Math.min(520,(viewport.clientWidth-24)*stage.height/stage.width+24)}px`:'';
+    if(viewport.style.height!==height)viewport.style.height=height;
     const width=Math.min(viewport.clientWidth-24,(viewport.clientHeight-24)*stage.width/stage.height);
     $('map-world').style.width=`${Math.max(100,width)*state.zoom}px`;
     $('map-world').style.height=`${Math.max(100,width)*stage.height/stage.width*state.zoom}px`;
+    positionActor();
+  }
+  function positionActor() {
+    const stop=data.stages[state.stage].stops[state.stop],width=$('map-world').clientWidth;
+    const radius=$('actor').offsetWidth/2;
+    const x=width*stop.x/100+(stop.x<50?-1:1)*(radius+42);
+    $('actor').style.left=`${Math.max(radius,Math.min(width-radius,x))}px`;
+    $('actor').style.top=`${Math.min(90,stop.y+8)}%`;
   }
   function renderActor() {
-    const character=data.characters[state.character],stop=data.stages[state.stage].stops[state.stop];
+    const character=data.characters[state.character];
     for(const id of ['actor-image','current-character']) {
       $(id).src=assets+'characters/'+character.image;
       $(id).alt=character.name+'原作实机形象';
@@ -29,14 +39,13 @@
     }
     $('actor-name').textContent=character.name;
     $('character-name').textContent=character.name;
-    $('actor').style.left=`${Math.max(13,stop.x-11)}%`;
-    $('actor').style.top=`${Math.max(22,stop.y-3)}%`;
+    positionActor();
     document.querySelectorAll('[data-character]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.character)===state.character)));
   }
   function renderStop() {
     const stage=data.stages[state.stage], stop=stage.stops[state.stop];
     $('location').textContent=stop.name;
-    $('trade-location').textContent=stop.name;
+    $('trade-location').textContent=stop.name+' · '+data.stopKinds[stop.kind].label;
     $('mobile-location').textContent=stop.name;
     document.querySelectorAll('[data-stop]').forEach(button=>{
       const current=Number(button.dataset.stop)===state.stop;
@@ -44,7 +53,7 @@
       button.setAttribute('aria-pressed',String(current));
     });
     const ultimate=state.stage===5;
-    $('trade-button').disabled=state.complete || (ultimate && state.stop!==2);
+    $('trade-button').disabled=state.complete || (ultimate && !stop.final);
     $('trade-button').textContent=state.complete ? '归乡终单已交付' : ultimate ? '交付归乡终单 · 演示' : `模拟成交 +${fmt(stage.gain)} 文`;
     $('mobile-trade').disabled=$('trade-button').disabled;
     $('mobile-trade').textContent=$('trade-button').textContent;
@@ -81,7 +90,7 @@
     $('mission-goal').textContent=stage.goal;
     $('story-text').textContent=stage.story;
     $('stage-idea').textContent=stage.idea;
-    $('map-status').textContent=stage.numeral+' · '+stage.name+'行旅';
+    $('map-status').textContent=stage.numeral+' · '+stage.name+' · '+stage.stops.length+'站';
     $('map-seal').textContent=stage.numeral;
     $('terrain').src=assets+'maps/'+stage.image;
     $('terrain').alt=stage.name+'行旅图参考画面';
@@ -90,9 +99,9 @@
     $('cargo-icon').alt=stage.itemName;
     $('cargo-name').textContent=stage.itemName;
     $('mobile-cargo').textContent=stage.itemName;
-    $('map-stops').innerHTML=stage.stops.map((stop,i)=>`<button class="map-stop" data-stop="${i}" style="left:${stop.x}%;top:${stop.y}%" aria-pressed="false"><span class="stall" aria-hidden="true"><i></i><b>商</b></span><span>${stop.name}</span></button>`).join('');
-    const [a,b,c]=stage.stops;
-    $('map-route').setAttribute('d',`M${a.x} ${a.y} Q${a.x+9} ${b.y+6} ${b.x} ${b.y} T${c.x} ${c.y}`);
+    $('map-stops').innerHTML=stage.stops.map((stop,i)=>`<button class="map-stop" data-stop="${i}" data-kind="${stop.kind}" style="left:${stop.x}%;top:${stop.y}%" aria-label="${stop.name} · ${data.stopKinds[stop.kind].label}" aria-pressed="false"><span class="stall" aria-hidden="true"><i></i><b>${data.stopKinds[stop.kind].mark}</b></span><span>${stop.name}</span></button>`).join('');
+    const route=[...stage.stops].sort((a,b)=>b.y-a.y || a.x-b.x);
+    $('map-route').setAttribute('d',route.map((stop,i)=>`${i?'L':'M'}${stop.x} ${stop.y}`).join(' '));
     renderStop();renderProgress();renderRoute();fitMap();
     // 仅提前缓存下一程素材；不在首屏下载全部地图。
     if(data.stages[state.stage+1]) { const image=new Image();image.src=assets+'maps/'+data.stages[state.stage+1].image; }
@@ -120,7 +129,7 @@
   });
   $('trade-button').addEventListener('click',()=>{
     if(state.stage!==5){addProfit(data.stages[state.stage].gain);return;}
-    if(state.stop!==2 || state.complete)return;
+    if(!data.stages[state.stage].stops[state.stop].final || state.complete)return;
     state.complete=true;renderStop();renderProgress();
     $('arrival-symbol').textContent='归';
     $('arrival-eyebrow').textContent='归乡终单 · 结局演示';
