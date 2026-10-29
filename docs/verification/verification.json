@@ -1,0 +1,164 @@
+{
+  "version": "M1-R4",
+  "date": "2026-10-29",
+  "checks": [
+    {
+      "name": "本机预览 HTTP 200",
+      "passed": true
+    },
+    {
+      "name": "四个确认人物可选",
+      "passed": true
+    },
+    {
+      "name": "选角直接显示实机原图，没有旧衍生图集",
+      "passed": true
+    },
+    {
+      "name": "同一场景内六区同时存在",
+      "passed": true
+    },
+    {
+      "name": "没有章节底图切换节点、区域卡片或底部选区菜单",
+      "passed": true
+    },
+    {
+      "name": "黑风山直接抵达且不替换总图",
+      "passed": true
+    },
+    {
+      "name": "黄风岭直接抵达且不替换总图",
+      "passed": true
+    },
+    {
+      "name": "小西天直接抵达且不替换总图",
+      "passed": true
+    },
+    {
+      "name": "盘丝岭直接抵达且不替换总图",
+      "passed": true
+    },
+    {
+      "name": "火焰山直接抵达且不替换总图",
+      "passed": true
+    },
+    {
+      "name": "花果山直接抵达且不替换总图",
+      "passed": true
+    },
+    {
+      "name": "点击地形本身也能到站",
+      "passed": true
+    },
+    {
+      "name": "图上入口展开当地市集",
+      "passed": true
+    },
+    {
+      "name": "买入五份的资金与持货一致",
+      "passed": true
+    },
+    {
+      "name": "猪八戒换角保留钱货及所在区域",
+      "passed": true
+    },
+    {
+      "name": "二郎神换角保留钱货及所在区域",
+      "passed": true
+    },
+    {
+      "name": "牛魔王换角保留钱货及所在区域",
+      "passed": true
+    },
+    {
+      "name": "孙悟空换角保留钱货及所在区域",
+      "passed": true
+    },
+    {
+      "name": "跨区卖出后盘缠1420、收益220、行囊为空",
+      "passed": true
+    },
+    {
+      "name": "无效数量被拒绝且钱货不变",
+      "passed": true
+    },
+    {
+      "name": "盘缠不足有反馈且不扣款",
+      "passed": true
+    },
+    {
+      "name": "容量不足有反馈且不增加持货",
+      "passed": true
+    },
+    {
+      "name": "可放大同一总图",
+      "passed": true
+    },
+    {
+      "name": "全图按钮恢复六区全景",
+      "passed": true
+    },
+    {
+      "name": "1440×1000六区均可达、全图可见且主要入口不遮挡",
+      "passed": true
+    },
+    {
+      "name": "1024×768六区均可达、全图可见且主要入口不遮挡",
+      "passed": true
+    },
+    {
+      "name": "820×1180六区均可达、全图可见且主要入口不遮挡",
+      "passed": true
+    },
+    {
+      "name": "760×900六区均可达、全图可见且主要入口不遮挡",
+      "passed": true
+    },
+    {
+      "name": "390×844六区均可达、全图可见且主要入口不遮挡",
+      "passed": true
+    },
+    {
+      "name": "320×740六区均可达、全图可见且主要入口不遮挡",
+      "passed": true
+    },
+    {
+      "name": "844×390六区均可达、全图可见且主要入口不遮挡",
+      "passed": true
+    },
+    {
+      "name": "模拟触屏可完成买货、总图换区、卖货",
+      "passed": true
+    },
+    {
+      "name": "直接打开本地HTML仍可玩",
+      "passed": true
+    },
+    {
+      "name": "四张实机图和六张地形图与原始文件逐项哈希相同",
+      "passed": true
+    },
+    {
+      "name": "没有脚本、控制台或HTTP资源错误",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "characters-desktop.png",
+    "world-desktop.png",
+    "world-fire-desktop.png",
+    "characters-phone.png",
+    "bag-phone.png",
+    "world-phone.png",
+    "market-phone.png"
+  ],
+  "errors": [],
+  "limits": [
+    "未测试实体手机",
+    "固定演示行情、内存状态、刷新重置",
+    "人物直接显示实机半身截图，尚无完整人物立绘",
+    "总图布局为本作提案，非原作官方世界地理"
+  ],
+  "passed": 35,
+  "status": "passed"
+}

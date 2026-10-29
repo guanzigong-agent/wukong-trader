@@ -1,0 +1,114 @@
+/* M1-R4 总地图。原作地形在同一 SVG 内呈现，区名与人物都是图上交互。 */
+body { background:#b7a275; }
+.game-scene { background:radial-gradient(ellipse at 50% 44%,#dbcda7,#a58d5c); }
+.map-viewport { inset:110px 20px 100px; background:transparent; }
+.map-world { overflow:hidden; box-shadow:0 0 30px 20px #c3b18b55; }
+.world-art { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; user-select:none; }
+.world-regions { position:absolute; inset:0; pointer-events:none; }
+.world-region { position:absolute; left:var(--region-x); top:var(--region-y); z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; transform:translate(-50%,-60%); border:0; border-radius:4px; background:radial-gradient(ellipse,#e4d6b2ed,#decda593 58%,transparent 73%); color:#3d3323; padding:6px 23px; min-width:145px; min-height:72px; pointer-events:auto; text-shadow:0 1px 1px #f4e7c5; }
+.world-region strong { font:34px/1.2 var(--serif); letter-spacing:6px; white-space:nowrap; }
+.world-region .stop-status { display:block; font-size:10px; line-height:14px; margin:0; letter-spacing:3px; color:#635936; }
+.world-region:hover { color:#932f21; }
+.world-region.is-current { color:#8e3021; }
+.world-region.is-current .stop-status::before { content:"◆"; margin-right:4px; font-size:8px; }
+.world-region:focus-visible { outline:2px solid #823a29; outline-offset:0; }
+.scene-vignette { box-shadow:inset 0 0 95px #4b3c2438; background:linear-gradient(180deg,#17251fef 0,#1f3024b5 80px,transparent 152px,transparent calc(100% - 132px),#19251fcf calc(100% - 62px),#14231af2 100%); }
+.scene-hud { padding:19px 28px; }
+.scene-location { margin-top:7px; }
+.scene-location h1 { font-size:29px; }
+.scene-location>span { height:31px; min-width:25px; font-size:16px; }
+.scene-location-note { margin-top:5px; }
+.world-badge { display:inline-block; margin-left:10px; border:1px solid #b6a16d77; padding:3px 6px; font-size:9px; letter-spacing:2px; vertical-align:2px; }
+.camera-tools { top:118px; bottom:auto; right:26px; flex-direction:row; }
+.camera-tools button { font-size:21px; }
+.camera-tools #world-overview { font:12px var(--serif); }
+.camera-tools #world-overview.is-active { background:#67714a; color:#fff2c9; }
+.scene-bottom { bottom:16px; gap:8px; }
+.scene-instruction { margin:0; }
+.scene-summary { flex-direction:row; align-items:center; gap:17px; }
+.scene-log { bottom:100px; }
+.scene-actor { z-index:3; min-width:65px; }
+.scene-actor .actor-figure { aspect-ratio:.88; overflow:hidden; border-radius:37% 37% 6% 6%; mask-image:linear-gradient(#000 0%,#000 79%,transparent 100%); filter:drop-shadow(0 2px 2px #392f2040); }
+.actor-figure img { position:static; width:100%; height:100%; object-fit:cover; max-width:100%; }
+.actor-shadow { width:58px; height:9px; bottom:22px; background:#43351a62; filter:blur(3px); }
+.player-nameplate { font-size:12px; letter-spacing:1px; margin-top:-8px; padding:4px 9px; }
+.merchant-hotspot { width:106px; min-height:83px; }
+.stall-roof { width:78px; height:15px; }
+.stall-counter { width:65px; height:31px; border-bottom-width:7px; border-left-width:3px; border-right-width:3px; }
+.stall-counter>img { width:26px; height:26px; }
+.stall-label { font-size:12px; letter-spacing:1px; padding:6px 9px; margin-top:4px; gap:5px; }
+.stall-label .icon { width:14px; height:14px; }
+.stall-hint { display:none; }
+.character-dialog { width:min(890px,calc(100vw - 34px)); }
+.character-choice { min-height:258px; padding:0 0 15px; overflow:hidden; background:#19261c; }
+.choice-photo { display:block; width:100%; height:193px; margin-bottom:12px; overflow:hidden; }
+.choice-photo img { width:100%; height:100%; object-fit:cover; }
+.character-choice>small { padding:0 5px; }
+.character-choice[aria-pressed="true"] { background:#414a2d; box-shadow:0 0 0 1px #d5ba7e; }
+.character-switch img { object-position:66% 34%; }
+.scene-feedback { top:114px; }
+.toast { bottom:99px; }
+@media(max-width:760px), (max-aspect-ratio:1/1) and (max-width:1100px) {
+ .map-viewport { inset:101px 6px 102px; }
+ .scene-hud { padding:13px 14px; }
+ .scene-brand { font-size:10px; letter-spacing:1px; }
+ .world-badge { margin-left:3px; font-size:8px; letter-spacing:0; padding:2px 4px; }
+ .scene-location { margin-top:8px; }
+ .scene-location h1 { font-size:26px; }
+ .hud-purse strong { font-size:25px; }
+ .hud-tools .scene-control { min-height:33px; padding:6px 9px; }
+ .world-region { min-width:112px; min-height:54px; padding:7px 13px; gap:0; }
+ .world-region strong { font-size:24px; letter-spacing:3px; }
+ .world-region .stop-status { font-size:9px; line-height:12px; letter-spacing:2px; }
+ .camera-tools { top:101px; bottom:auto; right:10px; flex-direction:row; gap:5px; }
+ .camera-tools button { width:32px; min-height:32px; font-size:18px; }
+ .camera-tools #world-overview { font-size:10px; }
+ .camera-tools #locate-player { display:none; }
+ .scene-actor .actor-figure { aspect-ratio:.86; }
+ .player-nameplate { padding:3px 6px; font-size:10px; letter-spacing:1px; }
+ .player-nameplate::before { margin-right:4px; width:3px; height:3px; }
+ .merchant-hotspot { width:66px; min-height:65px; }
+ .stall-roof { width:58px; height:12px; }
+ .stall-counter { width:49px; height:25px; border-bottom-width:5px; }
+ .stall-counter>img { width:19px; height:19px; }
+ .stall-label { padding:5px 6px; font-size:9px; letter-spacing:0; gap:3px; }
+ .stall-label .icon { width:12px; height:12px; }
+ .scene-bottom { bottom:max(13px,env(safe-area-inset-bottom)); left:12px; right:12px; gap:8px; }
+ .scene-summary { flex-direction:column; align-items:flex-end; gap:3px; }
+ .scene-summary strong { font-size:19px; }
+ .scene-instruction { font-size:9px; }
+ .scene-feedback { top:99px; }
+ .character-dialog { padding:22px 17px 20px; }
+ .character-choice { min-height:202px; padding-bottom:11px; }
+ .choice-photo { height:143px; margin-bottom:8px; }
+ .character-choice strong { font-size:19px; }
+ .character-choice>small { font-size:8px; margin-top:5px; }
+ .toast { bottom:98px; }
+}
+@media(max-width:350px) {
+ .world-badge { display:none; }
+ .world-region { min-width:96px; }
+ .world-region strong { font-size:22px; }
+ .scene-instruction { font-size:8px; }
+ .choice-photo { height:120px; }
+ .character-choice { min-height:179px; }
+}
+@media(max-height:560px) and (min-width:600px) {
+ .map-viewport { inset:80px 15px 70px; }
+ .scene-hud { padding:10px 16px; }
+ .scene-location { margin-top:5px; }
+ .scene-location h1 { font-size:23px; }
+ .scene-bottom { bottom:9px; }
+ .world-region { min-width:100px; min-height:44px; padding:3px 14px; left:calc(var(--region-x) + 5%); transform:translate(-50%,-40%); }
+ .world-region strong { font-size:21px; letter-spacing:3px; }
+ .world-region .stop-status { font-size:8px; }
+ .camera-tools { top:auto; bottom:78px; right:12px; flex-direction:row; gap:5px; }
+ .camera-tools button { width:30px; min-height:30px; }
+ .scene-actor .player-nameplate { font-size:9px; padding:2px 5px; }
+ .merchant-hotspot { width:65px; min-height:26px; }
+ .stall-roof, .stall-counter { display:none; }
+ .stall-label { font-size:9px; padding:4px 5px; letter-spacing:0; margin-top:2px; }
+ .stall-label .icon { width:10px; height:10px; }
+ .choice-photo { height:118px; }
+ .character-choice { min-height:175px; }
+}

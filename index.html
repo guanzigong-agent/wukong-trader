@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#1c2b21"><meta name="robots" content="noindex,nofollow"><title>黑神话之小妖行商 · M1-R4 六区总地图</title><link rel="icon" href="data:,"><link rel="stylesheet" href="styles.css?v=m1-r4"><link rel="stylesheet" href="scene.css?v=m1-r4"><link rel="stylesheet" href="world.css?v=m1-r4"><script defer src="demo-data.js?v=m1-r4"></script><script defer src="world-map.js?v=m1-r4"></script><script defer src="characters.js?v=m1-r4"></script><script defer src="scene.js?v=m1-r4"></script><script defer src="app.js?v=m1-r4"></script></head><body>
+  <svg class="svg-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-coin" viewBox="0 0 32 32"><circle cx="16" cy="16" r="12"/><path d="M12 12h8v8h-8zM16 4v4m0 16v4M4 16h4m16 0h4"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 32 32"><path d="m10 4 6 3 6-3-3 9c5 4 8 7 7 11s-5 5-10 5S7 28 6 24s2-7 7-11Z"/><path d="M10 13h12m-7 7 3 3m-3 0 3-3"/></symbol>
+    <symbol id="i-rise" viewBox="0 0 32 32"><path d="M5 25h23M6 20l8-8 6 5 8-10m-8 0h8v8"/></symbol>
+    <symbol id="i-route" viewBox="0 0 32 32"><circle cx="7" cy="7" r="3"/><circle cx="25" cy="25" r="3"/><path d="M10 7h11a6 6 0 0 1 0 12H11a6 6 0 0 0 0 12" stroke-dasharray="3 3"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 32 32"><path d="M7 10a11 11 0 1 1-1 11M7 3v8h8"/></symbol>
+    <symbol id="i-close" viewBox="0 0 32 32"><path d="m8 8 16 16M24 8 8 24"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 32 32"><path d="M5 16h22m-9-9 9 9-9 9"/></symbol>
+    <symbol id="i-station" viewBox="0 0 32 32"><path d="M6 26h20M9 25V14h14v11M5 14l11-9 11 9ZM14 25v-7h4v7M16 2v4"/></symbol>
+    <symbol id="i-herb" viewBox="0 0 48 48"><path d="M22 40c0-14 5-22 13-30M23 30C9 31 7 21 8 14c12-1 19 5 15 16ZM28 22C27 10 34 6 42 6c2 10-4 17-14 16Z" fill="currentColor" fill-opacity=".15"/><path d="m22 38-3-15m7 2 11-12"/></symbol>
+    <symbol id="i-ore" viewBox="0 0 48 48"><path d="m7 29 9-18 16-3 11 20-9 13H16Z" fill="currentColor" fill-opacity=".16"/><path d="m16 11 9 13 7-16M7 29l18-5 9 17m-9-17-9 17m9-17 18 4"/></symbol>
+    <symbol id="i-silk" viewBox="0 0 48 48"><path d="M10 10h24v28H10a5 5 0 0 1 0-10h30M10 10a5 5 0 0 0 0 10h24M34 10a5 5 0 0 1 5 5v18a5 5 0 0 1-5 5" fill="currentColor" fill-opacity=".13"/><path d="M10 20v8m7-7v6m9-6v6M8 33h21"/></symbol>
+    <symbol id="i-wine" viewBox="0 0 48 48"><path d="M19 6h10v6l-3 5c9 2 13 9 10 17s-21 8-24 0 1-15 10-17l-3-5Z" fill="currentColor" fill-opacity=".16"/><path d="M18 11h12M14 25c6 4 14 4 20 0M18 31c4 2 8 2 12 0"/></symbol>
+    <symbol id="i-trader" viewBox="0 0 64 64"><path d="m14 26-5-17 19 11M50 26l5-17-19 11" fill="currentColor" fill-opacity=".2"/><path d="M13 30c0-14 38-14 38 0 0 8-8 20-19 23-11-3-19-15-19-23Z"/><path d="m19 30 9 5m17-5-9 5m-8 6 4 3 4-3M21 51l-7 9m29-9 7 9M8 28h48M25 17l7-8 7 8"/></symbol>
+  </svg>
+<main id="game-scene" class="game-scene" data-region="blackwind">
+  <div id="map-viewport" class="map-viewport" aria-label="六大区总地图，点击地形或地名直接到站，放大后可拖动">
+    <div id="map-world" class="map-world">
+      <svg id="world-art" class="world-art" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="同时包含黑风山、黄风岭、小西天、盘丝岭、火焰山、花果山的行商总地图"></svg>
+      <nav id="region-map" class="world-regions" aria-label="总地图六大区"></nav>
+      <span id="landing-ripple" class="landing-ripple" aria-hidden="true"></span>
+      <button id="player-actor" class="scene-actor" type="button" aria-label="查看孙悟空的行囊"><span class="actor-shadow" aria-hidden="true"></span><span id="player-figure"></span><span class="player-nameplate" id="player-name">孙悟空</span></button>
+      <button id="merchant-hotspot" class="merchant-hotspot" type="button" aria-label="与商人交易"><span class="stall-roof" aria-hidden="true"></span><span class="stall-counter" aria-hidden="true"><img src="assets/original/items/item-licorice.png" alt=""><img src="assets/original/items/item-pinebrew.png" alt=""></span><span class="stall-label">当地市集<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></span><span class="stall-hint">点此买卖</span></button>
+    </div>
+  </div>
+  <div class="scene-vignette" aria-hidden="true"></div>
+  <header class="scene-hud"><div><div class="scene-brand">黑神话之小妖行商 <span class="world-badge">六域总图</span></div><div class="scene-location"><span id="station-number">壹</span><h1 id="station-name">黑风山</h1></div><p class="scene-location-note" id="station-description">带着行囊，走一趟山间商路。</p></div><div class="hud-right"><div class="hud-purse"><svg class="icon" aria-hidden="true"><use href="#i-coin"/></svg><strong id="cash-value">1,200</strong><small>文</small></div><div class="hud-tools"><button id="open-bag" class="scene-control" type="button" aria-label="打开行囊"><svg class="icon" aria-hidden="true"><use href="#i-bag"/></svg>行囊<span class="hud-bag-count"><span id="bag-value">0</span> / 20</span></button><button id="help-button" class="scene-control" type="button" aria-label="查看玩法说明">?</button></div></div></header>
+  <div class="camera-tools" aria-label="镜头操作"><button id="world-overview" class="scene-control is-active" type="button" aria-label="查看六大区全图">全图</button><button id="zoom-in" class="scene-control" type="button" aria-label="放大地图">+</button><button id="zoom-out" class="scene-control" type="button" aria-label="缩小地图">−</button><button id="locate-player" class="scene-control" type="button" aria-label="定位人物">⌖</button></div>
+  <div id="scene-feedback" class="scene-feedback" role="status" aria-live="polite"></div>
+  <footer class="scene-bottom"><div class="player-tools"><button id="character-button" class="character-switch" type="button" aria-label="更换人物"><img id="hud-portrait" src="assets/original/characters/wukong-idle.png" alt="孙悟空"><span><strong id="current-character">孙悟空</strong><small>此行所用形象</small></span><span>换人物 ↗</span></button><div class="scene-summary"><span>已赚差价 <strong id="profit-value">0</strong> 文</span><button id="journal-button" type="button" aria-expanded="false" aria-controls="scene-log">行商手记</button></div></div><p class="scene-instruction">点地图直接到站 · 点市集买卖 · 六区都在这一张图里</p></footer>
+  <aside id="scene-log" class="scene-log" hidden><h2>行商手记</h2><ol id="journal-list" aria-live="polite"></ol></aside>
+</main>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<dialog id="character-dialog" class="game-dialog character-dialog" aria-labelledby="character-title"><button id="close-character" class="icon-button dialog-close" type="button" data-close-dialog="character-dialog" aria-label="关闭选角" hidden><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button><span class="eyebrow">小妖行商 · 此行从这里启程</span><h2 id="character-title">选择行商人物</h2><p>选一位熟悉的同行者，带着行囊走入山海。</p><div id="character-options" class="character-options" role="group" aria-label="可选人物"></div><button id="confirm-character" class="primary-button" type="button">以孙悟空启程</button><p class="character-note">原作实机半身画面 · 本轮外观演示</p></dialog>
+<dialog id="market-dialog" class="market-dialog" aria-labelledby="market-title"><button type="button" class="icon-button dialog-close" data-close-dialog="market-dialog" aria-label="返回地图"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+      <section class="trading-panel panel" aria-labelledby="market-title">
+        <div class="section-heading original-market-heading"><div><span class="eyebrow" id="market-eyebrow">第一回 · 黑风山</span><h2 id="market-title" tabindex="-1">黑风山市集</h2></div><span class="open-tag"><i></i>开市中</span></div>
+        <div class="trade-tabs" role="tablist" aria-label="市集与行囊"><button type="button" id="market-tab" class="trade-tab is-active" role="tab" aria-selected="true" aria-controls="market-panel" tabindex="0"><img class="tab-art" src="assets/original/icons/ui-materials.png" alt="">当地市集<span>04</span></button><button type="button" id="bag-tab" class="trade-tab" role="tab" aria-selected="false" aria-controls="bag-panel" tabindex="-1"><img class="tab-art" src="assets/original/icons/ui-key-items.png" alt="">我的行囊<span id="bag-tab-count">0</span></button></div>
+        <section id="market-panel" role="tabpanel" aria-labelledby="market-tab"><div class="list-heading"><span>在售货物</span><span>当地单价</span></div><div id="market-list" class="goods-list"></div><p class="market-note">每份占 1 格行囊 · 各站使用固定演示行情</p></section>
+        <section id="bag-panel" role="tabpanel" aria-labelledby="bag-tab" hidden><div id="bag-list" class="goods-list"></div><div id="bag-empty" class="bag-empty"><svg class="icon" aria-hidden="true"><use href="#i-bag"/></svg><h3>行囊还空着</h3><p>挑几件货物，带到别处做笔生意。</p><button id="empty-to-market" class="secondary-button" type="button">去市集挑货</button></div><p class="market-note" id="bag-note">换个站点，再来看看手中货物值多少。</p></section>
+        <div class="trading-footer"><span class="tiny-diamond" aria-hidden="true"></span><p>买在便宜处，卖在紧俏时。</p><span class="tiny-diamond" aria-hidden="true"></span></div>
+      </section>
+</dialog>
+  <dialog id="trade-dialog" class="game-dialog trade-dialog" aria-labelledby="trade-title">
+    <button type="button" class="icon-button dialog-close" data-close-dialog="trade-dialog" aria-label="关闭交易"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+    <form id="trade-form" novalidate>
+      <span class="eyebrow" id="trade-location">黑风山市集</span>
+      <div class="trade-dialog-heading"><div id="trade-goods-icon" class="goods-icon"></div><div><h2 id="trade-title">买入甘草</h2><p id="trade-price">36 文 / 份</p></div></div>
+      <div class="quantity-label"><label for="trade-quantity">交易数量</label><button id="quantity-max" class="text-button" type="button">最多 <span id="quantity-max-value">20</span> 份</button></div>
+      <div class="quantity-stepper"><button id="quantity-minus" type="button" aria-label="减少一份">−</button><input id="trade-quantity" type="number" inputmode="numeric" min="1" max="999" step="1" value="1" autocomplete="off"><button id="quantity-plus" type="button" aria-label="增加一份">+</button></div>
+      <p id="trade-quota" class="quota-hint">行囊剩余 20 格</p>
+      <dl class="trade-summary"><div><dt id="trade-total-label">合计支出</dt><dd id="trade-total">36 文</dd></div><div><dt>交易后盘缠</dt><dd id="trade-cash-after">1,164 文</dd></div><div><dt id="trade-result-label">交易后行囊</dt><dd id="trade-result">1 / 20 格</dd></div></dl>
+      <p id="trade-error" class="trade-error" role="alert" hidden></p>
+      <button id="trade-submit" class="primary-button" type="submit">确认买入</button>
+    </form>
+  </dialog>
+
+  <dialog id="help-dialog" class="game-dialog help-dialog" aria-labelledby="help-title"><button type="button" class="icon-button dialog-close" data-close-dialog="help-dialog" aria-label="关闭说明"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button><span class="eyebrow">小妖行商 · 试玩说明</span><h2 id="help-title">走一趟，赚一笔</h2><ol class="help-steps"><li><span>壹</span><div><h3>逛市集，挑货物</h3><p>在总图上点人物身边的“当地市集”，选择货物与买入数量。</p></div></li><li><span>贰</span><div><h3>点地图，直接到站</h3><p>直接点总图上的地形或大区名，人物带着货物抵达该区，总地图始终保留。</p></div></li><li><span>叁</span><div><h3>开行囊，卖出赚差价</h3><p>点图上的人物或右上角“行囊”，查看持货并卖出，成交后回到地图。</p></div></li></ol><p class="help-note">本版为界面演示：四个人物外观可选；初始 1,200 文、20 格行囊；行情固定，刷新重置。六区地形取自原作行旅图并作总图布局；人物直接使用实机截图，当前显示为半身形象。</p><button type="button" class="primary-button" data-close-dialog="help-dialog">回到地图</button><div class="help-links"><a href="materials.html" target="_blank" rel="noopener">原作素材库 ↗</a><button id="reset-button" type="button" aria-label="重置本次试玩">重新启程</button></div></dialog>
+
+  <dialog id="reset-dialog" class="game-dialog reset-dialog" aria-labelledby="reset-title"><span class="eyebrow">重新启程</span><h2 id="reset-title">重置这次试玩？</h2><p>盘缠、货物和收益会回到起点。</p><div class="reset-actions"><button type="button" class="secondary-button" data-close-dialog="reset-dialog">继续这趟</button><button type="button" class="primary-button" id="confirm-reset">重新开始</button></div></dialog>
+</body></html>
