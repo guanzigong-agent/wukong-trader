@@ -4,7 +4,8 @@
   const $=id=>document.getElementById(id);
   const fmt=n=>n.toLocaleString('en-US');
   const assets='../../assets/original/';
-  const state={profit:0,stage:0,stop:0,character:0,complete:false,zoom:1};
+  const engine=window.WUKONG_TRADING;
+  let state={...engine.create(),stop:0,character:0,complete:false,zoom:1};
   const chapterNames=['第一程','第二程','第三程','第四程','第五程','终极篇章'];
   let feedbackTimer;
 
@@ -54,9 +55,13 @@
       button.setAttribute('aria-pressed',String(current));
     });
     const ultimate=state.stage===5;
+    $('trade-button').hidden=!ultimate;
     $('trade-button').disabled=state.complete || (ultimate && !stop.final);
-    $('trade-button').textContent=state.complete ? '归乡终单已交付' : ultimate ? '交付归乡终单 · 演示' : `演示本程收益 +${fmt(stage.gain)} 文`;
-    $('trade-hint').textContent=ultimate ? state.complete ? '本次演示已完成，可以重新启程。' : '点地图上的“水帘洞外”，试演归乡收尾。' : '此按钮用于演示换图，不进行商品买卖。';
+    $('trade-button').textContent=state.complete ? '归乡终单已交付' : '交付归乡终单';
+    $('trade-hint').textContent=ultimate ? state.complete ? '归乡终单已完成，仍可在地图上买卖。' : '点地图上的“水帘洞外”交付归乡终单。' : '选择数量买入，再前往高价站点卖出，利润计入升级目标。';
+    $('cash').textContent=fmt(state.cash);
+    $('bag-summary').textContent=`行囊 ${engine.used(state)} / ${state.capacity} · 持货成本 ${fmt(engine.usedCost(state))} 文`;
+    $('mobile-cargo').textContent=`行囊 ${engine.used(state)} / ${state.capacity}`;
     renderActor();
   }
   function renderProgress() {
@@ -68,8 +73,6 @@
     $('progress-percent').textContent=percent+'%';
     $('progress-fill').style.width=percent+'%';
     $('progress-track').setAttribute('aria-valuenow',String(percent));
-    $('demo-ultimate').disabled=ultimate;
-    $('demo-order').disabled=ultimate;
     $('next-label').textContent=ultimate?'本程收尾提案':'达标即换图';
     $('next-name').textContent=ultimate?(state.complete?'山海商途 · 归乡':'水帘洞外 · 归乡终单'):data.stages[state.stage+1].name;
   }
@@ -105,21 +108,22 @@
     // 仅提前缓存下一程素材；不在首屏下载全部地图。
     if(data.stages[state.stage+1]) { const image=new Image();image.src=assets+'maps/'+data.stages[state.stage+1].image; }
   }
-  function addProfit(amount) {
-    if(state.stage===5 || !Number.isSafeInteger(amount) || amount<=0)return;
-    const oldStage=state.stage;
-    state.profit+=amount;
-    state.stage=data.stageForProfit(state.profit);
-    if(state.stage!==oldStage) {
+  function transact(order) {
+    const result=engine.trade(state,{stop:state.stop,...order});
+    if(!result.ok)return result;
+    state=result.state;
+    if(result.advanced) {
+      window.WUKONG_MARKET_UI.close();
       state.stop=0;state.zoom=1;renderStage();
       const stage=data.stages[state.stage];
       $('arrival-symbol').textContent=stage.numeral;
       $('arrival-eyebrow').textContent=state.stage===5?'100,000 文达成 · 终极篇章':'收益达标 · 全新地图已开启';
       $('arrival-title').textContent=stage.name+' · '+stage.title;
-      $('arrival-description').textContent=state.stage===5?'沿着归途回到花果山。终极图已开启，下一步的“归乡终单”为收尾提案。':`累计收益 ${fmt(state.profit)} 文。本程目标：${stage.goal}`;
+      $('arrival-description').textContent=state.stage===5?'你通过商品买卖赚够了十万文，归途接回花果山。可继续买卖，或抵达水帘洞外交付归乡终单。':`累计净收益 ${fmt(state.profit)} 文，银钱与行囊随身带入新图。本程目标：${stage.goal}`;
       $('arrival-continue').textContent=state.stage===5?'回到花果山':'踏上新程';
       $('arrival-dialog').showModal();
-    } else {renderProgress();notify(`模拟成交，累计收益 +${fmt(amount)} 文`);}
+    } else {renderStop();renderProgress();}
+    return result;
   }
   $('map-stops').addEventListener('click',event=>{
     const button=event.target.closest('[data-stop]');if(!button)return;
@@ -127,22 +131,20 @@
     window.WUKONG_MARKET_UI.open();
   });
   $('trade-button').addEventListener('click',()=>{
-    if(state.stage!==5){addProfit(data.stages[state.stage].gain);return;}
+    if(state.stage!==5){window.WUKONG_MARKET_UI.open();return;}
     if(!data.stages[state.stage].stops[state.stop].final || state.complete)return;
     state.complete=true;renderStop();renderProgress();
     $('arrival-symbol').textContent='归';
-    $('arrival-eyebrow').textContent='归乡终单 · 结局演示';
+    $('arrival-eyebrow').textContent='归乡终单 · 行商结局';
     $('arrival-title').textContent='山海走过，归途有灯';
-    $('arrival-description').textContent='你将归乡物资交到水帘洞外。十万文留住了这一程的收获，终单为行商故事收尾。此结局为本作提案。';
+    $('arrival-description').textContent='你将归乡物资交到水帘洞外。沿途赚取的银钱和留下的货物，是这一程行商的收获。';
     $('arrival-continue').textContent='留在花果山';
     $('arrival-dialog').showModal();
   });
-  $('demo-order').addEventListener('click',()=>addProfit(10000));
   $('mobile-trade').addEventListener('click',()=>window.WUKONG_MARKET_UI.open());
-  $('demo-ultimate').addEventListener('click',()=>addProfit(100000-state.profit));
   $('reset').addEventListener('click',()=>{
-    state.profit=0;state.stage=0;state.stop=0;state.complete=false;state.zoom=1;
-    renderStage();notify('演示已重置，从黑风山重新启程。');
+    state={...engine.create(),stop:0,character:state.character,complete:false,zoom:1};
+    renderStage();window.WUKONG_MARKET_UI.open();notify('已重新开局：1,200文，20格行囊。');
   });
   $('route-open').addEventListener('click',()=>{$('route-dialog').showModal();});
   $('character-open').addEventListener('click',()=>{$('character-dialog').showModal();});
@@ -159,7 +161,7 @@
   $('zoom-out').addEventListener('click',()=>{state.zoom=Math.max(1,state.zoom-.2);fitMap();});
   $('map-fit').addEventListener('click',()=>{state.zoom=1;fitMap();});
   new ResizeObserver(fitMap).observe($('map-viewport'));
-  if(new URLSearchParams(location.search).get('scene')==='ultimate'){state.profit=100000;state.stage=5;}
+  window.WUKONG_MARKET_UI.bind({getAccount:()=>state,trade:transact});
   renderStage();
   window.WUKONG_MARKET_UI.open();
 })();

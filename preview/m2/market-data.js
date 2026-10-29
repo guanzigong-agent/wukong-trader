@@ -1,4 +1,4 @@
-/* 本作固定演示行情；不作为原作经济数据，也不执行买卖结算。 */
+/* 本作固定试玩行情，不作为原作经济数据；买卖由trading.js结算。 */
 window.WUKONG_MARKET = {
   goods: [
     {id:'herb',name:'甘草',image:'item-licorice.png'},
@@ -19,7 +19,7 @@ window.WUKONG_MARKET = {
     const offset=[0,4,8,-6,2,10][stopIndex];
     return this.goods.map((good,i)=>{
       const buy=Math.max(1,Math.round(this.basePrices[stageIndex][i]*(rates[i]+offset)/100));
-      return {...good,buy,sell:Math.max(1,Math.floor(buy*.88)),stock:12+(stageIndex*11+stopIndex*7+i*5)%25};
+      return {...good,buy,sell:Math.max(1,Math.floor(buy*.88))};
     });
   }
 };
