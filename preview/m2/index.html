@@ -6,12 +6,12 @@
   <meta name="theme-color" content="#172a23">
   <title>山海商途 · 地图进阶预览 | 黑神话之小妖行商</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="progression.css?v=m2-r3-trading">
-  <script src="progression-data.js?v=m2-r3-trading" defer></script>
-  <script src="market-data.js?v=m2-r3-trading" defer></script>
-  <script src="trading.js?v=m2-r3-trading" defer></script>
-  <script src="market-preview.js?v=m2-r3-trading" defer></script>
-  <script src="progression.js?v=m2-r3-trading" defer></script>
+  <link rel="stylesheet" href="progression.css?v=m2-r4-moving-market">
+  <script src="progression-data.js?v=m2-r4-moving-market" defer></script>
+  <script src="market-data.js?v=m2-r4-moving-market" defer></script>
+  <script src="trading.js?v=m2-r4-moving-market" defer></script>
+  <script src="market-preview.js?v=m2-r4-moving-market" defer></script>
+  <script src="progression.js?v=m2-r4-moving-market" defer></script>
 </head>
 <body>
   <header class="topbar">
@@ -20,7 +20,7 @@
   </header>
   <main>
     <div class="journey-header">
-      <div class="chapter-heading"><span class="eyebrow" id="chapter-number">第一程</span><h1><span id="stage-name">黑风山</span><i>·</i><span id="stage-title">山野初行</span></h1><p id="stage-brief">一图一程，赚够盘缠再启程。</p></div>
+      <div class="chapter-heading"><span class="eyebrow" id="chapter-number">第一程</span><h1><span id="stage-name">黑风山</span><i>·</i><span id="stage-title">山野初行</span></h1><p id="stage-brief">一图一程，赚够盘缠再启程。</p><p id="market-clock" class="market-clock">已行商0程 · 换站刷新行情</p></div>
       <div class="earnings"><span>累计净收益</span><div><strong id="profit">0</strong><span>文</span></div><p class="cash-note">现有银钱 <strong id="cash">1,200</strong> 文</p><p id="remaining"></p></div>
     </div>
     <div class="play-layout">
@@ -69,10 +69,10 @@
   <dialog id="market-dialog" class="market-dialog" aria-labelledby="market-title">
     <div class="dialog-heading"><div><span class="eyebrow" id="market-chapter">黑风山 · 集市</span><h2 id="market-title">山脚货摊</h2></div><button class="close" data-close aria-label="关闭本站买卖" autofocus>×</button></div>
     <div class="market-wallet"><span>现有银钱<strong id="market-cash">1,200 文</strong></span><span>行囊<strong id="market-space">0 / 20</strong></span><span>累计净收益<strong id="market-profit">0 文</strong></span></div>
-    <div class="quote-meta"><span id="market-count">4种商品</span><span class="quote-demo">本地可交易</span></div>
+    <div class="quote-meta"><span id="market-count">4种商品</span><span id="market-round" class="quote-demo">行情第1轮</span></div>
     <p id="trade-message" class="trade-message" role="status" aria-live="polite">选择数量后，点“买入”或“卖出”。</p>
     <div id="market-rows" class="trade-list" aria-label="本站商品与买卖操作"></div>
-    <p class="market-help">先低价买入，再换站高价卖出。价格为试玩配置，刷新后重新开局。</p>
+    <p class="market-help">换站刷新一轮行情；买卖、关开面板不刷价。涨跌对比同站上一轮，刷新页面重置。</p>
     <button id="market-return" class="primary">返回地图 · 换个站点卖货</button>
   </dialog>
 </body>

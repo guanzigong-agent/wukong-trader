@@ -62,6 +62,7 @@
     $('cash').textContent=fmt(state.cash);
     $('bag-summary').textContent=`行囊 ${engine.used(state)} / ${state.capacity} · 持货成本 ${fmt(engine.usedCost(state))} 文`;
     $('mobile-cargo').textContent=`行囊 ${engine.used(state)} / ${state.capacity}`;
+    $('market-clock').textContent=`已行商 ${state.market.turn} 程 · 换站刷新行情`;
     renderActor();
   }
   function renderProgress() {
@@ -127,7 +128,9 @@
   }
   $('map-stops').addEventListener('click',event=>{
     const button=event.target.closest('[data-stop]');if(!button)return;
-    state.stop=Number(button.dataset.stop);renderStop();
+    const result=engine.move(state,Number(button.dataset.stop));
+    if(!result.ok){notify(result.error);return;}
+    state=result.state;renderStop();
     window.WUKONG_MARKET_UI.open();
   });
   $('trade-button').addEventListener('click',()=>{
